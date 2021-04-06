@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Page>
+@{
+
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+    ViewData["Title"] = context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "hakkimizda").FirstOrDefault().Value;
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoMain");}
+}
+<section>
+    <div class="container">
+        <div class="about-main">
+            <div class="about-left-info">
+                <div data-aos="zoom-in" data-aos-duration="2300" class="about-left-main">
+                    <div class="_location">
+                        <span>
+                            <i class="fas fa-map-marker-alt"></i>
+                        </span>
+                        @Html.Raw(context.WebConfigs.FirstOrDefault().Adress)
+                    </div>
+                    <div class="_phone">
+                        <span>
+                            <i class="fas fa-phone-volume"></i>
+                        </span>
+                        <p class="phone">
+                            @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "numara").FirstOrDefault().Value
+                            @context.WebConfigs.FirstOrDefault().Phone
+                        </p>
+                    </div>
+                    <div class="social-about">
+                        <ul class="social-bookmark">
+                            <li class="social-item">
+                                <a href="@context.WebConfigs.FirstOrDefault().Instagram" target="_blank">
+                                    <i class="fab fa-instagram icon"></i>
+                                </a>
+                            </li>
+                            <li class="social-item">
+                                <a href="@context.WebConfigs.FirstOrDefault().Facebook" target="_blank">
+                                    <i class="fab fa-facebook-f icon"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="about-right-info">
+                @foreach (var item in Model)
+                {
+                    <div class="product-text product-text-edit rsp-text-pos">
+                        <h1>
+                            @item.PageTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title
+                        </h1>
+                        <span class="pro-border bottom-edit"></span>
+                    </div>
+                    <div class="about-right-text">
+                        @Html.Raw(item.PageTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Descriptions)
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+

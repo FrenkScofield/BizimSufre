@@ -1,0 +1,120 @@
+﻿@model Blog
+@{
+    ViewData["Title"] = "Detail";
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+}
+@section styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.0/lity.min.css">
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoDetail", Model.UniqueSeo);}
+    <meta name="title" content="@Model.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+    <meta property="og:title" content="@Model.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title" />
+    <meta name="twitter:title" content="@Model.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title" />
+    <meta property="og:image" content="https://@Context.Request.Host/files/blog/@Model.FileUrl" />
+    <meta name="twitter:image" content="https://@Context.Request.Host/files/blog/@Model.FileUrl" />
+    <title>@Model.BlogTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</title>
+}
+<!-- KESFET DETAİL START -->
+<section>
+    <div class="container">
+        <div class="kesf-et-detailmain">
+            <div class="row">
+                <div class="col-md-12 col-lg-6 col-xl-6">
+                    <figure data-aos="zoom-in-down" class="kesf-et-img">
+                        <img src="~/files/blog/@Model.FileUrl" alt="@Model.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                        @if (Model.VideoLink != null && Model.VideoLink != string.Empty)
+                        {
+                            <div class="about-play-icon">
+                                <a href="@Model.VideoLink" data-lity>
+                                    <i class="far fa-play-circle"></i>
+                                </a>
+                            </div>
+                        }
+                    </figure>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-6">
+                    <div class="kesf-et-right">
+                        <div class="kesf-et-header">
+                            <div class="kesf-date">
+                                <span>
+                                    <i class="far fa-calendar-alt mr-2"></i>
+                                    @Model.CreatDate.ToString("dd.MM.yyyy")
+                                </span>
+                            </div>
+                            <div class="kesf-et-info">
+                                <a href="#">
+                                    <p>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "paylas").FirstOrDefault().Value</p>
+                                </a>
+                                <span id="fb-facebook"><i class="fab fa-facebook-square ml-3"></i></span>
+                                <a href="https://wa.me/?text=@(Context.Request.Host+Context.Request.Path)" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                        <div class="kesf-et-main">
+                            <h1>@Model.BlogTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</h1>
+                            @Html.Raw(Model.BlogTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Descriptions)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- KESFET DETAİL END -->
+<section>
+    <div class="kesf-et-sliderback">
+        <div class="container">
+            <div class="product-list-header">
+                <div class="slider-product-main">
+                    <div class="product-text product-text-edit">
+                        <h2>
+                            @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "diger").FirstOrDefault().Value
+                        </h2>
+                        <span class="pro-border bottom-edit"></span>
+                    </div>
+                    <div class="product-slider-button">
+                        <a href="#" class="btn btn-partner">
+                            <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                            <div class="transition"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="kesf-et-slider" class="rsp-slider owl-carousel owl-theme">
+                @foreach (var item in context.Blogs.OrderBy(x => x.OrderBy).Skip(0).Take(6).ToList())
+                {
+                    <div class="kesf-card kesf-card-rsp">
+                        <div class="kesf-card-body">
+                            <a href="/kesfet/@item.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()">
+                                <figure class="kesf-card-img">
+                                    <img src="~/files/blog/@item.FileUrl" alt="@item.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                </figure>
+                                <div class="kesf-text">
+                                    <h2>@item.BlogTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</h2>
+                                    <p>
+                                        @item.BlogTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Summray
+                                    </p>
+                                    <span>
+                                        <i class="far fa-calendar-alt"></i>
+                                        @item.CreatDate.ToString("dd.MM.yyyy")
+                                    </span>
+                                </div>
+                            </a>
+                            <span class="dot-card">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.0/lity.min.js"></script>
+}

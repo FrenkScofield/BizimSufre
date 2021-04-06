@@ -1,0 +1,17 @@
+﻿@model List<ProductTranslate>
+@{ 
+    string lang = "az-Latn";
+    string url = Context.Request.Path;
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+}
+@foreach (var item in Model)
+{
+    <li>
+        <a href="/mehsullar/@item.Product.Category.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()/@item.SeoUrl.ToLower()">
+            @item.Title
+        </a>
+    </li>
+}

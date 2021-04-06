@@ -1,0 +1,48 @@
+﻿@model IEnumerable<mediabalans_sufre.Models.BLL.Page>
+
+@{
+    ViewData["Title"] = "Index";
+}
+    <div class="row">
+        <div class="col-md-6 my-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-4">
+                    Hakkımızda 
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-end my-3">
+                        @if (Model.Count() <= 0)
+                        {
+                            <a asp-action="Create" class="btn btn-outline-dark"><i class="fas fa-fw fa-plus"></i> Hakkımızda Ekle</a>
+                        }
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Başlık
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PageTranslates.FirstOrDefault().Title)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn text-primary"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn text-warning" onclick="return confirm('Silmek istediğinizden emin misiniz?')"><i class="fas fa-fw fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

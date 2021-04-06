@@ -1,0 +1,255 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["Controller"].ToString();
+    var currentAction = ViewContext.RouteData.Values["Action"].ToString();
+    string lang = "az-Latn";
+    string url = Context.Request.Path;
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+}
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1,shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="az">
+    <meta name="robots" content="nosnippet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="/assets/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="/assets/lib/owl.carousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/lib/owl.carousel/dist/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/assets/lib/lightbox/dist/css/lightbox.min.css">
+    @RenderSection("styles", required: false)
+    <link rel="stylesheet" href="~/assets/css/style.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/assets/css/responsive.min.css" asp-append-version="true">
+    <link rel="shortcut icon" href="/sufreicon.ico" type="image/x-icon">
+    <link rel="icon" href="/sufreicon.ico" type="image/x-icon">
+    @RenderSection("meta", required: false)
+    @Html.Raw(context.WebConfigs.FirstOrDefault().GoogleAnalytics)
+    @Html.Raw(context.WebConfigs.FirstOrDefault().FacebookPixel)
+    @Html.Raw(context.WebConfigs.FirstOrDefault().MetaTag)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="/assets/img/navbar-logo/bizimsufrenewlogo.svg" alt="bizim sufre logo">
+                </a>
+                <ul id="navbar-menu" class="navbar-nav ml-auto">
+                    <li class="nav-item @(currentController == "Home" ? "active" : " ")">
+                        <a class="nav-link" href="/">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "anasayfa").FirstOrDefault().Value</a>
+                    </li>
+                    <li class="nav-item  @(currentController == "About" ? "active" : " ")">
+                        <a class="nav-link" href="/haqqimizda">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "hakkimizda").FirstOrDefault().Value</a>
+                    </li>
+                    <li class="nav-item @(currentController == "Blogs" ? "active" : " ")">
+                        <a class="nav-link" href="/kesfet">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "kesfet").FirstOrDefault().Value</a>
+                    </li>
+                    <li class="nav-item dropdown drp-down @(currentController == "Products" ? "active" : " ")">
+                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "Mahsullar").FirstOrDefault().Value
+                        </a>
+                        <div class="dropdown-menu mahsullar-down" aria-labelledby="navbarDropdown">
+                            @foreach (var item in context.Categories.OrderBy(x => x.OrderBy).ToList())
+                            {
+                                <a class="dropdown-item mahsullar-item" href="/mehsullar/@item.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()">@item.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</a>
+                            }
+                        </div>
+                    </li>
+                    <li class="nav-item @(currentController == "Recipes" ? "active" : " ")">
+                        <a class="nav-link" href="/reseptler">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "resept").FirstOrDefault().Value</a>
+                    </li>
+                    <li class="nav-item dropdown lang">
+                        <a class="nav-link togglearrow" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @context.Languages.Where(x => x.Code == lang).FirstOrDefault().ShortName
+                            <span class="lang-icon">
+                                <i class="fas fa-chevron-down lang-ic"></i>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu lang-down toogle-menu-lang" aria-labelledby="navbarDropdown">
+                            @foreach (var item in context.Languages.OrderBy(x => x.OrderBy).ToList())
+                            {
+                                <a class="dropdown-item lang-item toogle-menu-lang-item" href="/language/change/?culture=@item.Code&returnUrl=@url">@item.ShortName</a>
+                            }
+                        </div>
+                    </li>
+                </ul>
+                <div class="Mobile-menu">
+                    <a href="#nowhere" class="navicon"></a>
+                    <div class="toggle">
+                        <ul class="toggle__menu">
+                            <li><a href="/">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "anasayfa").FirstOrDefault().Value</a></li>
+                            <li><a href="/haqqimizda/">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "hakkimizda").FirstOrDefault().Value</a></li>
+                            <li><a href="/kesfet/">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "kesfet").FirstOrDefault().Value</a></li>
+                            <li class="dropdown">
+                                <a id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "Mahsullar").FirstOrDefault().Value
+                                </a>
+                                <ul class="dropdown-menu dropdown-mobile" aria-labelledby="dropdownMenuButton">
+                                    @foreach (var item in context.Categories.OrderBy(x => x.OrderBy).ToList())
+                                    {
+                                        <li>
+                                            <a class="dropdown-item dropdown-mobile-item" href="/mehsullar/@item.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()">@item.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li><a href="/reseptler/">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "resept").FirstOrDefault().Value</a></li>
+                        </ul>
+                        <ul class="lang-list">
+                            @foreach (var item in context.Languages.OrderBy(x => x.OrderBy).ToList())
+                            {
+                                <li>
+                                    <a href="/language/change/?culture=@item.Code&returnUrl=@url">@item.ShortName</a>
+                                </li>
+                            }
+                        </ul>
+                        <div class="menu-social">
+                            <ul class="social-bookmark footer-bookmark menu-bookmark">
+                                <li class="social-item menu-bookmark-item">
+                                    <a href="@context.WebConfigs.FirstOrDefault().Instagram" target="_blank">
+                                        <i class="fab fa-instagram icon"></i>
+                                    </a>
+                                </li>
+                                <li class="social-item menu-bookmark-item">
+                                    <a href="@context.WebConfigs.FirstOrDefault().Facebook" target="_blank">
+                                        <i class="fab fa-facebook-f icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- NAVBAR END -->
+    <section>
+        <div class="container">
+            <div class="home-phone">
+                <a href="tel:@context.WebConfigs.FirstOrDefault().Phone" class="phone-2">
+                    <span>
+                        <i class="fas fa-phone-volume phone-volume-2"></i>
+                    </span>
+                    <p class="ml-3">@context.WebConfigs.FirstOrDefault().Phone</p>
+                </a>
+            </div>
+        </div>
+    </section>
+    @RenderBody()
+
+    <footer>
+        @{
+            string mar = "";
+            if (currentController == "Blogs" && currentAction == "Detail")
+            {
+                mar = "margin-top: 0;background-color: #fafafa;";
+            }
+            if (currentController == "Products" && currentAction == "Detail")
+            {
+                mar = "margin-top: 0;background-color: #fafafa;";
+            }
+            if (currentController == "Recipes" && currentAction == "Detail")
+            {
+                mar = "margin-top: 0;background-color: #fafafa;";
+            }
+        }
+        <div class="footer-back" style="@mar">
+            <div class="container container-footer">
+                <div class="footer-main">
+                    <nav class="navbar navbar-expand-lg footer-nav">
+                        <div class="container">
+                            <a class="navbar-brand footer-brand" href="/">
+                                <img src="/assets/img/navbar-logo/bizimsufrenewlogo.svg">
+                            </a>
+                            <ul id="footer-nav" class="navbar-nav ml-auto footer-nav2">
+                                <li class="nav-item @(currentController == "Home" ? "active" : " ")">
+                                    <a class="nav-link" href="/">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "anasayfa").FirstOrDefault().Value</a>
+                                </li>
+                                <li class="nav-item  @(currentController == "About" ? "active" : " ")">
+                                    <a class="nav-link" href="/haqqimizda">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "hakkimizda").FirstOrDefault().Value</a>
+                                </li>
+                                <li class="nav-item @(currentController == "Blogs" ? "active" : " ")">
+                                    <a class="nav-link" href="/kesfet">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "kesfet").FirstOrDefault().Value</a>
+                                </li>
+                                <li class="nav-item dropdown  @(currentController == "Products" ? "active" : " ")">
+                                    <a class="nav-link" href="#" id="navbarDropdown" role="button"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "Mahsullar").FirstOrDefault().Value
+                                    </a>
+                                    <div class="dropdown-menu footer-down" aria-labelledby="navbarDropdown">
+                                        @foreach (var item in context.Categories.OrderBy(x => x.OrderBy).ToList())
+                                        {
+                                            <a class="dropdown-item footer-down-item" href="/mehsullar/@item.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl">@item.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</a>
+                                        }
+                                    </div>
+                                </li>
+                                <li class="nav-item @(currentController == "Recipes" ? "active" : " ")">
+                                    <a class="nav-link" href="/reseptler">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "resept").FirstOrDefault().Value</a>
+                                </li>
+                                <li class="nav-item dropdown lang dsp">
+                                    <a class="nav-link td" href="#" id="navbarDropdown" role="button"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @context.Languages.Where(x => x.Code == lang).FirstOrDefault().ShortName
+                                        <span class="lang-icon">
+                                            <i class="fas fa-chevron-down lang-pc"></i>
+                                        </span>
+                                    </a>
+                                    <div id="footer-lang-menu" class="dropdown-menu lang-down footer-lang"
+                                         aria-labelledby="navbarDropdown">
+                                        @foreach (var item in context.Languages.OrderBy(x => x.OrderBy).ToList())
+                                        {
+                                            <a class="dropdown-item lang-item" href="/language/change/?culture=@item.Code&returnUrl=@url">@item.ShortName</a>
+                                        }
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer-copright">
+                <div class="copright-left">
+                    <p>Copyright 2020, Bizim Sufre. All right reserved.<a href="https://mediabalans.com/" target="_blank">Made By Media Balans</a></p>
+                </div>
+                <div class="copright-social">
+                    <ul class="social-bookmark footer-bookmark">
+                        <li class="social-item">
+                            <a href="@context.WebConfigs.FirstOrDefault().Instagram" target="_blank">
+                                <i class="fab fa-instagram icon"></i>
+                            </a>
+                        </li>
+                        <li class="social-item">
+                            <a href="@context.WebConfigs.FirstOrDefault().Facebook" target="_blank">
+                                <i class="fab fa-facebook-f icon"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="/assets/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/lib/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/assets/lib/lightbox/dist/js/lightbox.min.js"></script>
+    <script src="/assets/lib/owl.carousel/dist/owl.carousel.min.js"></script>
+    @RenderSection("scripts", required: false)
+    <script src="~/assets/js/main.min.js" asp-append-version="true"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>

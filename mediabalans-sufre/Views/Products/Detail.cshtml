@@ -1,0 +1,108 @@
+﻿@model ProductVM
+@{
+    ViewData["Title"] = "Detail";
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoDetail", Model.Product.UniqueSeo);}
+    <meta name="title" content="@Model.Product.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+    <meta property="og:title" content="@Model.Product.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title" />
+    <meta name="twitter:title" content="@Model.Product.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title" />
+    <meta property="og:image" content="https://@Context.Request.Host/files/prod/@Model.Product.FileUrl" />
+    <meta name="twitter:image" content="https://@Context.Request.Host/files/prod/@Model.Product.FileUrl" />
+    <title>@Model.Product.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</title>
+}
+<!-- PRODUCT DETAİL START -->
+<section>
+    <div class="container">
+        <div class="product-detail-header">
+            <figure class="product-detail-img">
+                <img src="~/files/prod/@Model.Product.FileUrl" alt="@Model.Product.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+            </figure>
+            <div class="product-detail-main">
+                <div class="product-headers">
+                    <div class="header-text">
+                        <h1>
+                            @Model.Product.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title
+                        </h1>
+                    </div>
+                    <div class="header-info">
+                        <a href="#">
+                            <p>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "paylas").FirstOrDefault().Value</p>
+                        </a>
+                        <span id="fb-facebook"><i class="fab fa-facebook-square ml-3"></i></span>
+                        <a href="https://wa.me/?text=@(Context.Request.Host+Context.Request.Path)" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <article class="product-right-main">
+                    <p class="text-1 mb-2">
+                        @Model.Product.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Summary
+                    </p>
+                    @Html.Raw(Model.Product.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Descriptions)
+                    @if (Model.Product.Facts != null)
+                    {
+                        <div class="main-img">
+                            <p class="text-7"> <strong>Nutrition facts</strong></p>
+                            <a href="~/files/prod/fact/@Model.Product.Facts" data-lightbox="image-1" data-title="">
+                                <figure>
+                                    <img class="img-detail" src="~/files/prod/fact/@Model.Product.Facts"
+                                         alt="@Model.Product.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                </figure>
+                            </a>
+                        </div>
+                    }
+
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- PRODUCT DETAİL END -->
+<!-- PRODUCT SLİDER START -->
+<section>
+    <div class="slider-product">
+        <div class="container">
+            <div class="product-list-header">
+                <div class="slider-product-main">
+                    <div class="product-text product-text-edit">
+                        <h2>
+                            @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "digermehsul").FirstOrDefault().Value
+                        </h2>
+                        <span class="pro-border bottom-edit rsp-pro"></span>
+                    </div>
+                    <div class="product-slider-button">
+                        <a href="/mehsullar/@Model.Product.Category.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()" class="btn btn-partner">
+                            <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                            <div class="transition"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="product-slider" class="owl-carousel owl-theme">
+                @foreach (var item in Model.Products.Where(x => x.CategoryId == Model.Product.Category.Id).Skip(0).Take(6))
+                {
+                    <div class="product-card product-card-2 product-card-slider product-card-rsp">
+                        <div class="product-card-body">
+                            <a href="/mehsullar/@item.Category.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()/@item.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()">
+                                <figure class="product-card-img slider-img">
+                                    <img src="~/files/prod/@item.FileUrl" alt="@item.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                </figure>
+                                <div class="product-main-text product-2-text">
+                                    <p>@item.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</p>
+                                </div>
+                            </a>
+                        </div>
+                        <span class="dot-card">
+                            <i class="fas fa-circle"></i>
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+

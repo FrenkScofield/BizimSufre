@@ -1,0 +1,139 @@
+﻿@model RecipeVM
+@{
+    ViewData["Title"] = "Detail";
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoDetail", Model.Recipe.UniqueSeo);}
+    <meta name="title" content="@Model.Recipe.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+    <meta property="og:title" content="@Model.Recipe.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title" />
+    <meta name="twitter:title" content="@Model.Recipe.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title" />
+    <meta property="og:image" content="https://@Context.Request.Host/files/recipe/@Model.Recipe.RecipeFiles.FirstOrDefault().FileUrl" />
+    <meta name="twitter:image" content="https://@Context.Request.Host/files/recipe/@Model.Recipe.RecipeFiles.FirstOrDefault().FileUrl" />
+    <title>@Model.Recipe.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</title>
+}
+<!-- PRODUCT DETAİL START -->
+<section>
+    <div class="product-detay2-back">
+        <div class="container">
+            <div class="row row-detay">
+                <div class="col-md-12 col-lg-7 col-xl-8">
+                    <article class="product-detail2">
+                        <div class="product2-headers">
+                            <div class="header-text">
+                                <h1 class="mb-4">
+                                    @Model.Recipe.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title
+                                </h1>
+                            </div>
+                            <div class="header-info">
+                                <div class="top-date">
+                                    <span><i class="far fa-calendar-alt"></i></span>
+                                    <p class="ml-2">@Model.Recipe.CreateDate.ToString("dd.MM.yyyy")</p>
+                                    <span><i class="far fa-folder"></i></span>
+                                    <p class="ml-2">@Model.Recipe.RecipeCategory.RecipeCategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Name</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product2-main">
+                            <span class="text-1 mb-5">
+                                @Html.Raw(Model.Recipe.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Descriptions)
+                            </span>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-12 col-lg-5 col-xl-4">
+                    <div class="right-slider">
+                        <div id="right-product-slider" class="owl-carousel owl-theme" data-slider-id="1">
+                            @foreach (var item in Model.Recipe.RecipeFiles)
+                            {
+                                <div class="item">
+                                    <figure>
+                                        <img src="~/files/recipe/@item.FileUrl"
+                                             alt="@Model.Recipe.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                    </figure>
+                                </div>
+                            }
+                        </div>
+                        <div class="thumblain-lh">
+                            <div class="owl-thumbs" data-slider-id="1">
+                                @foreach (var item in Model.Recipe.RecipeFiles)
+                                {
+                                    <div class='thm-content owl-thumb-item'>
+                                        <figure>
+                                            <img src="~/files/recipe/@item.FileUrl"
+                                                 alt="@Model.Recipe.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                        </figure>
+                                        <div class='thm-layer'></div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-info">
+                        <a href="#">
+                            <p class="mr-3">@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "paylas").FirstOrDefault().Value</p>
+                        </a>
+                        <span id="fb-facebook"><i class="fab fa-facebook-square ml-3"></i></span>
+                        <a href="https://wa.me/?text=@(Context.Request.Host+Context.Request.Path)" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- PRODUCT DETAİL END -->
+<!-- PRODUCT SLİDER START -->
+<section>
+    <div class="recept-slide-back">
+        <div class="container">
+            <div class="product-list-header">
+                <div class="slider-product-main">
+                    <div class="product-text product-text-edit">
+                        <h2>
+                            @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "resepdiger").FirstOrDefault().Value
+                        </h2>
+                        <span class="pro-border bottom-edit"></span>
+                    </div>
+                    <div class="product-slider-button">
+                        <a href="/reseptler" class="btn btn-partner">
+                            <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                            <div class="transition"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="recept-slider" class="owl-carousel owl-theme">
+                @foreach (var item in Model.Recipes.Where(x => x.RecipeCategoryId == Model.Recipe.RecipeCategoryId).Skip(0).Take(6))
+                {
+                    <div class="product-card-recept product-card-recept2">
+
+                        <div class="recept-card-body">
+                            <a href="/reseptler/@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().SeoUrl.ToLower()">
+                                <figure class="recept-card-img">
+                                    <img src="~/files/recipe/@item.RecipeFiles.FirstOrDefault().FileUrl" alt="@item.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                </figure>
+                                <div class="recept-main-text">
+                                    <h2>@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</h2>
+                                    <p>
+                                        @item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Summary
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                        <span class="dot-card">
+                            <i class="fas fa-circle"></i>
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- PRODUCT SLİDER END -->
+@section scripts{
+    <script src="~/assets/lib/owl.carousel/dist/owl.carousel2.thumbs.min.js"></script>
+}

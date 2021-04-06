@@ -1,0 +1,45 @@
+﻿@model IEnumerable<mediabalans_sufre.Models.BLL.Seo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <div class="col-md-6 my-4 mx-auto">
+        <div class="card shadow mb-4">
+            <div class="card-header py-4">
+                Seo Listesi
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-end my-3">
+                    <a asp-action="Create" class="btn btn-outline-dark"><i class="fas fa-fw fa-plus"></i> Seo Ekle</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-shorting">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Başlık
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Where(x => x.UniqueSeo == null))
+                            {
+                                <tr data-id="@item.Id">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SeoTranslates.FirstOrDefault().Title)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn text-primary"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn text-warning" onclick="return confirm('Silmek istediğinizden emin misiniz?')"><i class="fas fa-fw fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

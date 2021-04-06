@@ -1,0 +1,10 @@
+﻿@using mediabalans_sufre
+@using mediabalans_sufre.Models
+@using mediabalans_sufre.Models.BLL
+@using mediabalans_sufre.Models.BLL.Translate
+@using mediabalans_sufre.Models.DAL
+@using mediabalans_sufre.Models.VM
+@using Microsoft.AspNetCore.Http
+@inject MyContext context
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{ var config = context.WebConfigs.FirstOrDefault(); }

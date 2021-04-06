@@ -1,0 +1,150 @@
+﻿@model mediabalans_sufre.Models.BLL.Recipe
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="row">
+    <div class="col-md-12 my-4">
+        <div class="card shadow my-4">
+            <div class="card-header py-4">
+                Tarif Ekle <a asp-action="Index" class="float-right btn btn-outline-secondary">Geri Git</a>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <fieldset class="radiogenel">
+                                <legend>Resim ve Video</legend>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="addnae">Resim Dosyası</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="files" name="files" aria-describedby="addnae" accept=".jpeg, .png, .jpg" multiple>
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="VideoLink" class="control-label">Video Url</label>
+                                    <input asp-for="VideoLink" class="form-control" />
+                                    <span asp-validation-for="VideoLink" class="text-danger"></span>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" asp-for="RecipeCategoryId">Kategori</label>
+                                <select class="form-control" asp-for="RecipeCategoryId">
+                                    <option value="">Seçiniz</option>
+                                    @foreach (var item in context.RecipeCategories.ToList())
+                                    {
+                                        <option value="@item.Id">@item.RecipeCategoryTranslates.FirstOrDefault().Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CreateDate" class="control-label">Tarih</label>
+                                <input type="date" asp-for="CreateDate" class="form-control" required />
+                                <span asp-validation-for="CreateDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Approve" class="control-label d-block">Gösterilsin mi?</label>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="ApproveTrue" name="Approve" asp-for="Approve" class="custom-control-input" value="True">
+                                    <label class="custom-control-label" for="ApproveTrue">Evet</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="ApproveFalse" name="Approve" asp-for="Approve" class="custom-control-input" value="False">
+                                    <label class="custom-control-label" for="ApproveFalse">Hayır</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-language my-3">
+                                @{
+                                    int a = 0;
+                                    int b = 0;
+                                }
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    @foreach (var item in context.Languages.ToList())
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link @(a == 0 ? "active":" ") " id="nav-@item.Code-tab" data-toggle="tab" href="#nav-@item.Code" role="tab" aria-controls="nav-@item.Code" aria-selected="true">@item.Name</a>
+                                        </li>
+                                        a++;
+                                    }
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    @foreach (var item in context.Languages.ToList())
+                                    {
+                                        <div class="tab-pane fade @(b == 0 ? " show active" : "") py-4" id="nav-@item.Code" role="tabpanel" aria-labelledby="nav-@item.Code">
+                                            <div class="form-group">
+                                                <label class="control-label">Başlık - (@item.ShortName)</label>
+                                                <input type="text" name="translates[@b].Title" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Özet - (@item.ShortName)</label>
+                                                <textarea class="form-control" rows="4" cols="4" name="translates[@b].Summary"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Açıklama - (@item.ShortName)</label>
+                                                <textarea class="form-control texteditor" rows="4" cols="4" name="translates[@b].Descriptions"></textarea>
+                                            </div>
+                                            <input type="hidden" name="translates[@b].LanguageId" value="@item.Id" />
+                                        </div>
+                                        b++;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset class="radiogenel">
+                                <legend>Sayfa Seo</legend>
+                                <div class="form-language my-3">
+                                    @{
+                                        int sa = 0;
+                                        int sb = 0;
+                                    }
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        @foreach (var item in context.Languages)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link @(sa == 0 ? "active":" ") " id="nav-@item.Code-tab" data-toggle="tab" href="#nav-@item.Code" role="tab" aria-controls="nav-@item.Code" aria-selected="true">@item.Name</a>
+                                            </li>
+                                            sa++;
+                                        }
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        @foreach (var item in context.Languages)
+                                        {
+                                            <div class="tab-pane fade @(sb == 0 ? " show active" : "") py-4" id="nav-@item.Code" role="tabpanel" aria-labelledby="nav-@item.Code">
+                                                <div class="form-group">
+                                                    <label class="control-label">Keyword - (@item.ShortName)</label>
+                                                    <input type="text" name="seos[@sb].Key" class="form-control" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Description - (@item.ShortName)</label>
+                                                    <textarea class="form-control" rows="4" cols="4" name="seos[@sb].Descriptions"></textarea>
+                                                </div>
+                                                <input type="hidden" name="seos[@sb].LanguageId" value="@item.Id" />
+                                            </div>
+                                            sb++;
+                                        }
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Ekle" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

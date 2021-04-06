@@ -1,0 +1,124 @@
+﻿@model RecipeVM
+@{
+
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+    ViewData["Title"] = context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "resept").FirstOrDefault().Value;
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoMain");}
+}
+<section>
+    <div id="recept-slider-comment" class="owl-carousel owl-theme">
+        @foreach (var item in Model.Recipes.Skip(0).Take(3))
+        {
+            <div class="comment-item">
+                <img src="~/files/recipe/@item.RecipeFiles.FirstOrDefault().FileUrl" alt="@item.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                <div class="comment-cover">
+                    <div class="container">
+                        <div class="header-content">
+                            <div class="header-content-1">
+                                <span><i class="far fa-folder icons-recept-slider"></i> @item.RecipeCategory.RecipeCategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Name</span>
+                            </div>
+                            <div class="header-content-2">
+                                <h1>@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</h1>
+                                <p>
+                                    @item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Summary
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+<!-- RECEPT END -->
+<!-- RECEPT2 START -->
+
+<section>
+    <div class="container">
+        <div class="rcp-alt-header">
+            <div class="rcp-search">
+                <input id="input1" class="form-control rcp-sc" type="text" name="" placeholder="@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "inputsearch").FirstOrDefault().Value">
+                @*<button type="button" class="btn btn-save">
+                        mayonez
+                        <i class="fas fa-times ml-2" id="removespan"></i>
+                    </button>*@
+            </div>
+            <div class="rcp-searh-btn">
+                <div class="dropdown ml-3">
+                    <button class="btn  rcp-down" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "kat").FirstOrDefault().Value
+                        <span>
+                            <i class="fas fa-chevron-down rcp-icon ml-2"></i>
+                        </span>
+                    </button>
+                    <div class="dropdown-menu rcp-menu-down" aria-labelledby="dropdownMenuButton">
+                        @foreach (var item in Model.RecipeCategories)
+                        {
+                            <a class="dropdown-item rcp-item" href="#">@item.RecipeCategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Name</a>
+                        }
+                    </div>
+                </div>
+                <div class="rcp-button ml-3">
+                    <button type="button" class="btn btn-rcp">
+                        @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "ara").FirstOrDefault().Value
+                        <span>
+                            <i class="fas fa-search btn-rcp-ico ml-2"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="rcp-card-main">
+            <div class="product-4 rsp-edit">
+                <div class="product1-img-main">
+                    @foreach (var item in Model.Recipes)
+                    {
+                        <div class="product-card-recept rcp-card-edit">
+                            <div class="recept-card-body">
+                                <a href="/reseptler/@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().SeoUrl.ToLower()">
+                                    <figure class="recept-card-img recept-card-img2">
+                                        <img src="~/files/recipe/@item.RecipeFiles.FirstOrDefault().FileUrl" alt="@item.RecipeTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                    </figure>
+                                    <div class="recept-main-text">
+                                        <h2>@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</h2>
+                                        <p>
+                                            @item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Summary
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                            <span class="dot-card">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                    }
+
+                </div>
+                @if (Model.Recipes.Count() >= 10)
+                {
+                    <div class="recept-card-finish">
+                        <a href="#" class="btn btn-partner">
+                            <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                            <div class="transition"></div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+            <figure data-aos="fade-up" data-aos-duration="3000" class="rcp-right-image rsp-mobile-card">
+                <img src="/assets/img/product/bottom-salata.png" alt="recept içerik resim">
+            </figure>
+            <figure data-aos="fade-up" data-aos-duration="3000" class="rcp-left-image rsp-mobile-card"
+                    alt="recept içerik resim">
+                <img src="/assets/img/product/domato.png">
+            </figure>
+        </div>
+    </div>
+</section>

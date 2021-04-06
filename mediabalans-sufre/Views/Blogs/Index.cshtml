@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Blog>
+@{
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+    ViewData["Title"] = context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "kesfet").FirstOrDefault().Value;
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoMain");}
+}
+<section>
+    <div class="container">
+        <div class="product-list-header">
+            <div class="product-list rsp-product-list">
+                <div class="product-text product-text-edit">
+                    <h1>
+                        @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "kesfet").FirstOrDefault().Value
+                    </h1>
+                    <span class="pro-border bottom-edit"></span>
+                </div>
+            </div>
+        </div>
+        <div class="kesf-main">
+            @foreach (var item in Model)
+            {
+                <div class="kesf-card">
+                    <div class="kesf-card-body">
+                        <a href="/kesfet/@item.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()">
+                            <figure class="kesf-card-img">
+                                <img src="~/files/blog/@item.FileUrl" alt="@item.BlogTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                            </figure>
+                            <div class="kesf-text">
+                                <h2>@item.BlogTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</h2>
+                                <p>
+                                    @item.BlogTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Summray
+                                </p>
+                                <span>
+                                    <i class="far fa-calendar-alt"></i>
+                                    @item.CreatDate.ToString("dd.MM.yyyy")
+                                </span>
+                            </div>
+                        </a>
+                        <span class="dot-card">
+                            <i class="fas fa-circle"></i>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+        @if (Model.Count() >= 10)
+        {
+            <div class="product-list-button">
+                <a href="#" class="btn btn-partner">
+                    <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                    <div class="transition"></div>
+                </a>
+            </div>
+        }
+    </div>
+</section>
+

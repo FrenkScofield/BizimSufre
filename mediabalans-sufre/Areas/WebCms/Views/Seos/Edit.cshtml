@@ -1,0 +1,63 @@
+﻿@model mediabalans_sufre.Models.BLL.Seo
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-md-6 my-4 mx-auto">
+        <div class="card shadow mb-4">
+            <div class="card-header py-4">
+                Seo Güncelle <a asp-action="Index" class="float-right btn btn-outline-secondary">Geri Git</a>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="OrderBy" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-language my-3">
+                        @{
+                            int a = 0;
+                            int b = 0;
+                        }
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            @foreach (var item in context.Languages)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(a == 0 ? "active":" ") " id="nav-@item.Code-tab" data-toggle="tab" href="#nav-@item.Code" role="tab" aria-controls="nav-@item.Code" aria-selected="true">@item.Name</a>
+                                </li>
+                                a++;
+                            }
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            @foreach (var item in Model.SeoTranslates)
+                            {
+                            <div class="tab-pane fade @(b == 0 ? " show active" : "") py-4" id="nav-@item.Language.Code" role="tabpanel" aria-labelledby="nav-@item.Language.Code">
+                                <div class="form-group">
+                                    <label class="control-label">Title - (@item.Language.ShortName)</label>
+                                    <input type="text" name="translates[@b].Title" class="form-control" value="@item.Title" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Keyword - (@item.Language.ShortName)</label>
+                                    <input type="text" name="translates[@b].Key" class="form-control" value="@item.Key" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Description - (@item.Language.ShortName)</label>
+                                    <textarea class="form-control" rows="4" cols="4" name="translates[@b].Descriptions">@item.Descriptions</textarea>
+                                </div>
+                                <input type="hidden" name="translates[@b].Id" value="@item.Id" />
+                                <input type="hidden" name="translates[@b].LanguageId" value="@item.LanguageId" />
+                                <input type="hidden" name="translates[@b].SeoId" value="@item.SeoId" />
+                            </div>
+                                b++;
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Güncelle" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

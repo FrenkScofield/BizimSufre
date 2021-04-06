@@ -1,0 +1,21 @@
+[
+  {
+    "outputFileName": "wwwroot/assets/css/style.min.css",
+    "inputFiles": [
+      "wwwroot/assets/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/assets/js/main.min.js",
+    "inputFiles": [
+      "wwwroot/assets/js/main.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/assets/css/responsive.min.css",
+    "inputFiles": [
+      "wwwroot/assets/css/responsive.css"
+    ]
+  }
+ 
+]

@@ -1,0 +1,79 @@
+﻿@model ProductVM
+@{
+
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+    ViewData["Title"] = Model.Category.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title;
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoMain");} 
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-list-header">
+                    <div class="product-list">
+                        <div class="product-text product-text-edit">
+                            <h1>
+                                @Model.Category.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title
+                            </h1>
+                            <span class="pro-border bottom-edit"></span>
+                        </div>
+                        <div class="product-list-search">
+                            <div class="search-nav">
+                                <span>
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                <div class="search-nav-panel">
+                                    <div class="search-input">
+                                        <input type="text" name="search" id="search" class="form-control search-product"
+                                               placeholder="@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "inputsearch").FirstOrDefault().Value">
+                                        <input type="hidden" name="id" id="cate" value="@Model.Category.Id" />
+                                    </div>
+                                    <div class="search-result">
+                                        <ul class="apedd">
+                                           
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-list2">
+                    @foreach (var item in Model.Products)
+                    {
+                        <div data-aos="zoom-out" data-aos-duration="2300" class="product-card product-card-2">
+                            <div class="product-card-body">
+                                <a href="/mehsullar/@item.Category.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()/@item.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().SeoUrl.ToLower()">
+                                    <figure class="product-card-img">
+                                        <img src="~/files/prod/@item.FileUrl" alt="@item.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                    </figure>
+                                    <div class="product-main-text product-2-text">
+                                        <p>@item.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <span class="dot-card">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                    }
+                </div>
+                @*@if (Model.Products.Count() >= 10)
+                {
+                    <div class="product-list-button">
+                        <a href="#" class="btn btn-partner">
+                            <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                            <div class="transition"></div>
+                        </a>
+                    </div>
+                }*@
+            </div>
+        </div>
+    </div>
+</section>

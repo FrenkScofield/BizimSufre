@@ -1,0 +1,65 @@
+﻿@model mediabalans_sufre.Models.BLL.AdminUser
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+    <div class="row">
+        <div class="col-md-6 my-4 mx-auto">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    Kullanici Guncelle <a asp-action="Index" class="float-right btn btn-outline-secondary">Geri Git</a>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="FirstName" class="control-label">Adi</label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="LastName" class="control-label">Soyadi</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="Mail" class="control-label">E-Mail</label>
+                                <input asp-for="Mail" class="form-control" />
+                                <span asp-validation-for="Mail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="UserName" class="control-label">Kullanici</label>
+                                <input asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="Password" class="control-label">Sifre</label>
+                                <input type="password" id="Password" name="Password" class="form-control" value="@Model.Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="Rol" class="control-label">Rol</label>
+                                <select class="form-control" asp-for="Rol">
+                                    <option value="Admin">Admin</option>
+                                    <option value="Manger">Manager</option>
+                                    <option value="Editor">Editor</option>
+                                </select>
+                                <span asp-validation-for="Rol" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <input type="submit" value="Guncelle" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+

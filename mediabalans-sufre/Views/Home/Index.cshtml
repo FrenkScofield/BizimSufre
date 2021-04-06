@@ -1,0 +1,141 @@
+﻿@model HomeVM
+
+@{
+
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+    ViewData["Title"] = context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "anasayfa").FirstOrDefault().Value;
+}
+@section meta{
+    @{await Html.RenderPartialAsync("_SeoMain");}
+}
+<!-- HOME SLİDER START -->
+<section>
+    <div class="container-fluid">
+        <div class="home-section-1">
+            <div class="home-slider owl-carousel owl-theme">
+                @foreach (var item in Model.Sliders)
+                {
+                    <div class="sd-item">
+                        <a href="@(item.Link != null ? item.Link : "#")">
+                            <img src="~/files/slider/@item.FileUrl" alt="ana sayfa">
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- HOME SLİDER END -->
+
+<section>
+    <div class="container section-index">
+        <figure data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500"
+                class="left-img image-rsp-home">
+            <img src="/assets/img/product/domato.png" alt="anasayfa arkaplan resim1">
+        </figure>
+        <figure data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500"
+                class="right-img image-rsp-home">
+            <img src="/assets/img/product/biber.png" alt="anasayfa arkaplan resim2">
+        </figure>
+        <figure data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500"
+                class="left-bottom image-rsp-home">
+            <img src="/assets/img/product/bottom-sol.png" alt="anasayfa arkaplan resim3">
+        </figure>
+        <figure data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500"
+                class="right-bottom image-rsp-home">
+            <img src="/assets/img/product/bottom-salata.png" alt="anasayfa arkaplan resim4">
+        </figure>
+        <div class="section2-main">
+            @{
+                int kat = 1;
+            }
+            @foreach (var item in Model.Categories)
+            {
+                <div class="product-@kat">
+                    <div class="product-text">
+                        <h1>
+                            @item.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title
+                        </h1>
+                        <span class="pro-border"></span>
+                    </div>
+                    <div class="product1-img-main main-res">
+                        <figure data-aos="zoom-out" data-aos-duration="2300" class="product-first-img">
+                            <img src="~/files/cat/@item.FileUrl" alt="@item.CategoryTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                        </figure>
+                        @foreach (var prod in Model.Products.Where(x => x.CategoryId == item.Id).Skip(0).Take(4))
+                        {
+                            <div data-aos="zoom-out" data-aos-duration="2300" class="product-card rsp-mobile-card">
+                                <div class="product-card-body">
+                                    <a href="/mehsullar/@item.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().SeoUrl.ToLower()/@prod.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().SeoUrl.ToLower()">
+                                        <figure class="product-card-img">
+                                            <img src="~/files/prod/@prod.FileUrl" alt="@prod.ProductTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title">
+                                        </figure>
+                                        <div class="product-main-text">
+                                            <p>@prod.ProductTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <span class="dot-card">
+                                    <i class="fas fa-circle"></i>
+                                </span>
+                            </div>
+                        }
+                        <div class="product-button rsp-home-button">
+                            <a href="/mehsullar/@item.CategoryTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().SeoUrl.ToLower()" class="btn btn-partner btn-product-1-rsp">
+                                <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                                <div class="transition"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                kat++;
+            }
+            <div class="product-4">
+                <div class="product-text">
+                    <h1>
+                        @context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "resep").FirstOrDefault().Value
+                    </h1>
+                    <span class="pro-border"></span>
+                </div>
+                <div class="product1-img-main main-res">
+                    @{
+                        int i = 0;
+                    }
+                    @foreach (var item in Model.Recipes)
+                    {
+                        <div class="product-card-recept recept-card-home @(i == 0 ? "" : "rsp-mobile-card")">
+                            <div class="recept-card-body">
+                                <a href="/reseptler/@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().SeoUrl.ToLower()">
+                                    <figure class="recept-card-img recept-card-img-3">
+                                        <img src="~/files/recipe/@item.RecipeFiles.FirstOrDefault().FileUrl" alt="@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title">
+                                    </figure>
+                                    <div class="recept-main-text">
+                                        <h3>@item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title</h3>
+                                        <p>
+                                            @item.RecipeTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Summary
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                            <span class="dot-card rsp-dot-crd">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                        i++;
+                    }
+                </div>
+                <div class="product-button rcp-product-btn-2 rsp-home-button">
+                    <a href="/reseptler" class="btn btn-partner">
+                        <span>@context.ResourceTranslates.Where(x => x.Language.Code == lang && x.Resource.Key == "dahacok").FirstOrDefault().Value</span>
+                        <div class="transition"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

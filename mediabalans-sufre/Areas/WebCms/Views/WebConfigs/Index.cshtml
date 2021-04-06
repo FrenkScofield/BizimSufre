@@ -1,0 +1,90 @@
+﻿@model WebConfig
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-md-6 my-4 mx-auto">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                Genel Ayarlar
+            </div>
+            <div class="card-body">
+                <form asp-action="Index">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Id" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="CompanyName" class="control-label">Site Adı</label>
+                        <input asp-for="CompanyName" class="form-control" />
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mail" class="control-label">Site Email</label>
+                        <input asp-for="Mail" class="form-control" />
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label">Telefon Numarası</label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Adress" class="control-label">Adres</label>
+                        <input asp-for="Adress" class="form-control" />
+                        <span asp-validation-for="Adress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Facebook" class="control-label">Facebook Adres</label>
+                        <input asp-for="Facebook" class="form-control" />
+                        <span asp-validation-for="Facebook" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Instagram" class="control-label">Instagram Adres</label>
+                        <input asp-for="Instagram" class="form-control" />
+                        <span asp-validation-for="Instagram" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Linkedin" class="control-label"> Linkedin Adres</label>
+                        <input asp-for="Linkedin" class="form-control" />
+                        <span asp-validation-for="Linkedin" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Youtube" class="control-label"> Youtube Adres</label>
+                        <input asp-for="Youtube" class="form-control" />
+                        <span asp-validation-for="Youtube" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Twitter" class="control-label">Twitter Adres </label>
+                        <input asp-for="Twitter" class="form-control" />
+                        <span asp-validation-for="Twitter" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FacebookPixel" class="control-label">Facebook Pixel</label>
+                        <textarea asp-for="FacebookPixel" class="form-control" rows="4" cols="4"></textarea>
+                        <span asp-validation-for="FacebookPixel" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="GoogleAnalytics" class="control-label"> Google Analytics</label>
+                        <textarea  asp-for="GoogleAnalytics" class="form-control" rows="4" cols="4"></textarea>
+                        <span asp-validation-for="GoogleAnalytics" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MetaTag" class="control-label">Meta Tag</label>
+                        <textarea asp-for="MetaTag" class="form-control" rows="4" cols="4"></textarea>
+                        <span asp-validation-for="MetaTag" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Copyright" class="control-label"></label>
+                        <input asp-for="Copyright" class="form-control" />
+                        <span asp-validation-for="Copyright" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@{
+    string lang = "az-Latn";
+    if (Context.Session.GetString("lang") != null)
+    {
+        lang = Context.Session.GetString("lang");
+    }
+    var seo = context.Seos.FirstOrDefault(x => x.UniqueSeo == null);
+
+}
+<meta name="title" content="@seo.SeoTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title @ViewData["Title"]">
+<meta name="description" content="@seo.SeoTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Descriptions">
+<meta name="keywords" content="@seo.SeoTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Key">
+<meta property="og:title" content="@seo.SeoTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title @ViewData["Title"]" />
+<meta property="og:description" content="@seo.SeoTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Descriptions" />
+<meta property="og:site_name" content="BizimSufre" />
+<meta property="og:locale" content="az" />
+<meta property="og:type" content="resim.makale" />
+<meta property="og:image" content="@Context.Request.Host/assets/img/navbar-logo/bizimsufrenewlogo.svg" />
+<meta property="og:url" content="@(Context.Request.Host+Context.Request.Path)" />
+<meta name="twitter:title" content="@seo.SeoTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Title @ViewData["Title"]" />
+<meta name="twitter:description" content="@seo.SeoTranslates.Where(x=>x.Language.Code==lang).FirstOrDefault().Descriptions" />
+<meta name="twitter:site" content="BizimSufre" />
+<meta name="twitter:image" content="@Context.Request.Host/assets/img/navbar-logo/bizimsufrenewlogo.svg" />
+<title>@seo.SeoTranslates.Where(x => x.Language.Code == lang).FirstOrDefault().Title @ViewData["Title"]</title>

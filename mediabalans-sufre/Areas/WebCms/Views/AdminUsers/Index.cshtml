@@ -1,0 +1,58 @@
+﻿@model IEnumerable<mediabalans_sufre.Models.BLL.AdminUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <div class="row">
+        <div class="col-md-12 my-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    Kullanicilar
+                </div>
+                <div class="card-body">
+                    <div class="text-right mb-4">
+                        <a asp-action="Create" class="btn btn-outline-dark"><i class="fas fa-fw fa-plus"></i> Kullanici Ekle</a>
+                    </div>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Adi</th>
+                                <th>Soyadi</th>
+                                <th>Email</th>
+                                <th>Kullanici Adi</th>
+                                <th>Rol</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LastName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Mail)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Rol)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn text-primary"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn text-warning"><i class="fas fa-fw fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
